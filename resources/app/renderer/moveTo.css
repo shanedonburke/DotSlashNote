@@ -1,0 +1,149 @@
+body {
+  background-color: #333333;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  color: white;
+}
+
+.controls {
+  background-color: #2F2F2F;
+  width: 75%;
+  padding-left: 2.5%;
+  padding-right: 2.5%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+}
+
+h3 {
+  padding-left: 10px;
+}
+
+.folders {
+  background-color: #444444;
+  width: 80%;
+  height: 240px;
+  overflow: auto;
+}
+
+.noteFolder {
+  background-color: #404040;
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.noteFolder:hover {
+  background-color: #5e5e5e;
+}
+
+.noteFolder:active {
+  background-color: #6b6b6b;
+}
+
+.alt {
+  background-color: #3C3C3C;
+}
+
+.folderText {
+  user-select: none;
+  //font-weight: bold;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.smallFolderSVG {
+  pointer-events: none;
+  vertical-align: middle;
+  height: 10px;
+  padding-left: 13px;
+  padding-right: 7px;
+  user-select: none;
+}
+
+.buttons {
+  padding-top: 20px;
+  width: 60%;
+
+}
+
+.button {
+	background-color: #e04c41;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+	width: 100px;
+  height: 30px;
+	text-decoration: none;
+  user-select: none;
+}
+
+.button:hover {
+	background-color:#e63b33;
+}
+
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.disabledButton {
+  background-color: #db7b74;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+  width: 100px;
+  height: 30px;
+  text-decoration: none;
+}
+
+.back {
+  width: 30px;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+  background-color: #BBBBBB;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #333333;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

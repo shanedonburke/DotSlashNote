@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+  <link rel="stylesheet" type="text/css" href="newNotebookStyle.css">
+</head>
+
+<body>
+  <center>
+    <br>
+    Enter a name for your notebook:
+    <!-- Notebook name input field -->
+    <div style="padding: 10px"><input type="text" id="name" maxlength="22"></input></div>
+    Select a color: <button class="jscolor {valueElement:null,value:'FF0000',onFineChange:'update(this)'}" style="width:50px; height:20px;" id="color"></button>
+    <div class="buttons">
+      <!-- OK and Cancel buttons -->
+      <a href="#" id="okBtn" class="button left">OK</a>
+      <a href="#" id="cancelBtn" class="button right">Cancel</a>
+    </div>
+  </center>
+<div class="container">
+
+</div>
+
+<!-- Scripts -->
+<script src="jscolor.js"></script>
+<script src="editNotebook.js"></script>
+
+</body>
+
+</html>

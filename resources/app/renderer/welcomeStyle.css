@@ -1,0 +1,50 @@
+body {
+  background-color: #2B2B2B;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+}
+
+a {
+  color: powderblue;
+  text-decoration: underline;
+  text-decoration-color: powderblue;
+  cursor: pointer;
+}
+
+ul {
+  list-style-position: outside;
+  text-align: left;
+}
+
+.newBtn {
+	background-color: #e04c41;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+  height: 30px;
+	text-decoration: none;
+  user-select: none;
+  width: 30px;
+  cursor: initial;
+}
+
+.welcomeText {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  justify-content: center;
+}
+
+.wrapper {
+  width: 90%;
+  background-color: #333333;
+  padding-left: 10px;
+  padding-right: 10px;
+}

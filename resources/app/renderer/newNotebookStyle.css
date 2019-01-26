@@ -1,0 +1,85 @@
+body {
+  background-color: #333333;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  //font-weight: bold;
+  color: white;
+  align-items: center;
+}
+
+.container {
+  padding: 10px;
+}
+
+.buttons {
+  position: fixed;
+  bottom: 0;
+  padding: 20px 20px 20px 20px;
+  right: 10%;
+  left: 5%;
+  width: 80%;
+}
+
+.button {
+	background-color: #e04c41;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+	width: 100px;
+  height: 30px;
+	text-decoration: none;
+}
+
+.button:hover {
+	background-color:#e63b33;
+}
+
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+.disabledButton {
+  background-color: #db7b74;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+  width: 100px;
+  height: 30px;
+  text-decoration: none;
+}
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+#color {
+  border: none;
+  outline: none;
+  -webkit-appearance: none;
+  padding: 0;
+}
+
+#color::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+  outline: none;
+}

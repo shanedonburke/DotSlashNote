@@ -1,0 +1,6 @@
+-u bdd
+--recursive
+--bail
+-t 150
+--reporter list 
+-A

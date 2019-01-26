@@ -1,0 +1,434 @@
+
+
+.sidebar {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: #333333;
+  padding-top: 10px;
+  font-family: 'Roboto', sans-serif;
+  display: none;
+  border-right: 1px solid #222222;
+}
+
+.notebookControls {
+  width: 90%;
+  height: 30px;
+  padding: 5%;
+}
+
+input {
+  display: block;
+  width: 150px;
+  height: 7px;
+  margin-left: 5px;
+  padding: 5px 5px 5px 5px;
+  background-color: #333333;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+.noteControls {
+  width: 70%;
+  height: 30px;
+  padding-left: 15%;
+  padding-right: 15%;
+  padding-top: 5%;
+  padding-bottom: 5%;
+}
+
+.button {
+	background-color: #e04c41;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	border-radius: 4px;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-size: 14px;
+	font-weight: bold;
+  text-align: center;
+  line-height: 30px;
+  height: 30px;
+	text-decoration: none;
+  user-select: none;
+}
+
+.button:hover {
+	background-color:#e63b33;
+}
+.button:active {
+	position:relative;
+	top:1px;
+}
+
+.new {
+  width: 30px;
+  float: left;
+  margin-right: 10px;
+}
+
+.newNote {
+  width: 100px;
+  float: right;
+}
+
+.back {
+  width: 30px;
+  float: left;
+  margin-right: 10px;
+}
+
+.notebooks {
+  padding-top: 10px;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: hidden;
+  margin-top: 10px auto;
+}
+
+.notebooks:hover {
+  overflow-y: auto;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #333333;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.notebook {
+  background-color: #404040;
+  width: 100%;
+  height: 70px;
+  position: relative;
+}
+
+
+.notebook:hover {
+  background-color: #5e5e5e;
+}
+
+.notebook:active {
+  background-color: #6b6b6b;
+}
+
+.filler {
+  background-color: #333333;
+  width: 100%;
+  height: 70px;
+  position: relative;
+}
+
+.folder {
+  background-color: #404040;
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+.folder:hover {
+  background-color: #5e5e5e;
+}
+
+.folder:active {
+  background-color: #6b6b6b;
+}
+
+.noteFolder {
+  background-color: #404040;
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.noteFolder:hover {
+  background-color: #5e5e5e;
+}
+
+.noteFolder:active {
+  background-color: #6b6b6b;
+}
+
+
+.note {
+  background-color: #404040;
+  display: flex;
+  align-items: center;
+  height: 30px;
+}
+
+.note:hover {
+  background-color: #5e5e5e;
+}
+
+.note:active {
+  background-color: #6b6b6b;
+}
+
+.alt {
+  background-color: #3b3b3b;
+}
+
+.folderText, .noteText {
+  user-select: none;
+  //font-weight: bold;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.folderSVG {
+  pointer-events: none;
+  vertical-align: middle;
+  height: 15px;
+  padding-left: 15px;
+  padding-right: 7px;
+  user-select: none;
+}
+
+.smallFolderSVG {
+  pointer-events: none;
+  vertical-align: middle;
+  height: 10px;
+  padding-left: 13px;
+  padding-right: 7px;
+  user-select: none;
+}
+
+.noteSVG {
+  pointer-events: none;
+  vertical-align: middle;
+  height: 15px;
+  padding-left: 15px;
+  padding-right: 7px;
+  user-select: none;
+}
+
+.notebookText {
+  width: 100%;
+  float: left;
+  height: 100%;
+  text-align: left;
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  right: 40%;
+  //font-weight: bold;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+  color: white;
+  user-select: none;
+}
+
+.nameText {
+  padding: 7px;
+  width: 60%;
+  user-select: none;
+}
+
+.selected {
+  background-color: #6b6b6b;
+}
+
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: #bbb;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.drag {
+  position: fixed;
+  z-index: 2;
+  width: 50px;
+  height: 20px;
+  background-color: white;
+}
+
+.tabWrapper {
+  display: block;
+  width: 150px;
+  height: 30px;
+  padding-left: 20px;
+  margin: auto;
+  align-items: center;
+  float: left;
+  background-color: #333333;
+  border-right: 1px solid black;
+  color: #AAAAAA;
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.tab {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 80%;
+  line-height: 30px;
+  display: block;
+  text-align: center;
+  user-select: none;
+  z-index: 1;
+}
+
+.tabSelected {
+  background-color: #444444;
+  color: white;
+}
+
+.closeBtn {
+  position: relative;
+  top: -25px;
+  right: 5px;
+  display: inline-block;
+  float: right;
+  background-color: transparent;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  width: 20px;
+  height: 20px;
+  z-index: 2;
+}
+
+.closeBtn:hover {
+  background-color: #888888;
+}
+
+.closeBtn:active {
+  background-color: #777777;
+}
+
+.closeSVG {
+  pointer-events: none;
+  vertical-align: middle;
+  height: 20px;
+  user-select: none;
+}
+
+div#welcomeDiv {
+  position: fixed;
+  width: calc(100% - 200px);
+  height: 100%;
+  top: 0;
+  right: 0;
+}
+
+iframe#welcome {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+div#tabs {
+  border-bottom: none;
+  margin: 0 auto;
+  height: 30px;
+  width: 100%;
+  background-color: #333333;
+  overflow: hidden;
+}
+div#editor {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: calc(100% - 200px);
+  height: 100%;
+  border: none;
+  margin: 0px 0px 0px 0px;
+  padding: 0px 0px 0px 0px;
+}
+
+div#richTextArea {
+  font-family: "Roboto", sans-serif;
+  margin: none;
+  border: none;
+  height: calc(100% - 90px);
+  border-bottom: 20px solid #444444;
+}
+
+.ql-font-roboto {
+  font-family: 'Roboto', sans-serif;
+}
+
+.ql-font-times-new-roman {
+  font-family: 'Times New Roman';
+}
+
+.ql-font-open-sans {
+  font-family: 'Open Sans';
+}
+
+.ql-font-ubuntu {
+  font-family: 'Ubuntu Mono';
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=roboto]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=roboto]::before {
+    content: 'Roboto';
+    font-family: 'Roboto', sans-serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=times-new-roman]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=times-new-roman]::before {
+    content: 'Times N.R.';
+    font-family: 'Times New Roman', serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=open-sans]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=open-sans]::before {
+    content: 'Open Sans';
+    font-family: 'Open Sans', sans-serif;
+}
+
+.ql-snow .ql-picker.ql-font .ql-picker-label[data-value=ubuntu]::before,
+.ql-snow .ql-picker.ql-font .ql-picker-item[data-value=ubuntu]::before {
+    content: 'Ubuntu';
+    font-family: 'Ubuntu Mono';
+}
+
+.tooltip {
+  display: flex;
+  width: 170px;
+  height: 20px;
+  background-color: #444444;
+  margin-left: 15px;
+  color: #fff;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 4px;
+  align-items: center;
+
+  position: absolute;
+  top: 18px;
+  left: 125px;
+  z-index: 2;
+}
+
+.resultsText {
+  width: 100px;
+  height: 30px;
+  line-height: 30px;
+  color: white;
+  float: left;
+}
