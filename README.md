@@ -6,7 +6,7 @@
 
 ## Getting Started
 
-Download or clone the repository to your Windows machine. Open DotSlashNote.exe, and start taking some notes! The source code is included in the /Resources/App directory. Feel free to use or modify the code to your liking.
+Download or clone the repository to your Windows machine. Run DotSlashNote.exe, and start taking some notes! The source code is included in the /Resources/App directory. Feel free to use or modify the code to your liking.
 
 ## Authors
 
