@@ -6,7 +6,15 @@
 
 ## Getting Started
 
-Download or clone the repository to your Windows machine. Run DotSlashNote.exe, and start taking some notes! The source code is included in the /Resources/App directory. Feel free to use or modify the code to your liking.
+A prebuilt distribution of ./note can be found in the Releases section. To build the app yourself, run these commands:
+
+'''
+git clone https://github.com/shanedonburke/DotSlashNote
+cd DotSlashNote
+npm install
+'''
+
+Then, follow the instructions listed [here](https://electronjs.org/docs/tutorial/application-distribution).
 
 ## Authors
 
