@@ -363,7 +363,7 @@ div#richTextArea {
   font-family: "Roboto", sans-serif;
   margin: none;
   border: none;
-  height: calc(100% - 90px);
+  height: calc(100% - 70px);
   border-bottom: 20px solid #444444;
 }
 
