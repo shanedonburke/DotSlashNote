@@ -29,6 +29,6 @@ Download or clone the repository to your Windows machine. Run DotSlashNote.exe, 
 
 ## License
 
-This project is licensed under the GNU General Public License v3 - see the [LICENSE.md](LICENSE.md) file for details
+This project is licensed under the GNU General Public License v3 - see the [LICENSE](https://github.com/shanedonburke/DotSlashNote/blob/master/LICENSE) file for details
 
 
