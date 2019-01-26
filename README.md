@@ -8,11 +8,11 @@
 
 A prebuilt distribution of ./note can be found in the Releases section. To build the app yourself, run these commands:
 
-'''
+```
 git clone https://github.com/shanedonburke/DotSlashNote
 cd DotSlashNote
 npm install
-'''
+```
 
 Then, follow the instructions listed [here](https://electronjs.org/docs/tutorial/application-distribution).
 
