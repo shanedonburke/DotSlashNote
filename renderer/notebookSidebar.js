@@ -120,7 +120,7 @@ notebookMenu.append(new MenuItem({ label: 'Export', click() {
       }
       for (i = 0; i < results.length; i++) {
         // Exclude notes.json and folders.json
-        if (results[i].name != "notes.json" && results[i].name != "folders.json") {
+        if (results[i].name != "notes.json" && results[i].name != "folders.json" && results[i].name != "undefined.json") {
           // Read file
           var file = fs.readFileSync(results[i].file);
           // Parse Uniqid from file path
