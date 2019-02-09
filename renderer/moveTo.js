@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const helper = require('./helper.js')
 
 // Read working directory (where items being moved are) from file
 var workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json');
@@ -13,36 +14,8 @@ var okBtn = document.getElementById('okBtn')
 var cancelBtn = document.getElementById('cancelBtn');
 var dirTitle = document.getElementById("directory");
 
-/**
- * Parse folders.json and return array of folder objects or empty array
- * if folders.json does not exist
- * @returns {Object[]} Array of folder objects
- */
-var fetchFolders = (dir) => {
-  try {
-    var foldersString = fs.readFileSync(dir + '\\folders.json');
-    return JSON.parse(foldersString);
-  } catch(e) {
-    return [];
-  }
-};
-
-/**
- * Parse notebooks.json and return array of notebook objects or empty array
- * if notebooks.json does not exist
- * @returns {Object[]} Array of note objects
- */
-var fetchNotebooks = (dir) => {
-  try {
-    var notebooksString = fs.readFileSync(dir + '\\notebooks.json');
-    return JSON.parse(notebooksString);
-  } catch(e) {
-    return [];
-  }
-};
-
 // Fetch array of notebooks in working directory
-var notebooks = fetchNotebooks(workingDir);
+var notebooks = helper.fetchNotebooks(workingDir);
 
 /**
  * Show list of folders in current directory
@@ -54,7 +27,7 @@ function refreshFolders() {
   }
 
   // Fetch array of folders in current directory
-  var folders = fetchFolders(currentDir);
+  var folders = helper.fetchFolders(currentDir);
   // Create array to store indices of selected folders in folders array
   var selectedFolderIndices = [];
 
@@ -103,24 +76,6 @@ function refreshFolders() {
 
 // Show folders in data directory
 refreshFolders();
-
-/**
- * Save array of notebook objects to file by updating notebooks.json
- * @param {Object[]} notebooks - Array of notebook objects
- * @param {dir} dir - Directory in which notebooks will be saved
- */
-var saveNotebooks = (notebooks, dir) => {
-  fs.writeFileSync(dir + '\\notebooks.json', JSON.stringify(notebooks));
-};
-
-/**
- * Save array of folder objects to file by updating folders.json
- * @param {Object[]} folders - Array of folder objects
- * @param {dir} dir - Directory in which folders will be saved
- */
-var saveFolders = (folders, dir) => {
-  fs.writeFileSync(dir + '\\folders.json', JSON.stringify(folders));
-};
 
 // Enter folder when folder element is clicked
 $(document).on('click', '.noteFolder', function() {
@@ -186,7 +141,7 @@ $("#okBtn").on('click', function() {
   // Remove moved notebooks from array by excluding them from new array
   if (notebookIndices.length > 0) {
     // Save array of notebooks in destination directory
-    saveNotebooks(notebooksNewDir, currentDir);
+    helper.saveNotebooks(notebooksNewDir, currentDir);
     // Create array to store notebooks that haven't been moved
     var newNotebooks = [];
     for (i = 0; i < notebooks.length; i++) {
@@ -196,13 +151,13 @@ $("#okBtn").on('click', function() {
       }
     }
     // Save new array to working directory
-    saveNotebooks(newNotebooks, workingDir);
+    helper.saveNotebooks(newNotebooks, workingDir);
   }
 
   // Remove moved folders from array by excluding them from new array
   if (folderIndices.length > 0) {
     // Save array of folders in destination directory
-    saveFolders(foldersNewDir, currentDir);
+    helper.saveFolders(foldersNewDir, currentDir);
     // Create array to store notebooks that haven't been moved
     var newFolders = [];
     for (i = 0; i < folders.length; i++) {
@@ -212,7 +167,7 @@ $("#okBtn").on('click', function() {
       }
     }
     // Save new array to working directory
-    saveFolders(newFolders, workingDir);
+    helper.saveFolders(newFolders, workingDir);
   }
 
   // Close window

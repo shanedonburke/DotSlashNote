@@ -1,4 +1,6 @@
 var fs = require('fs-extra');
+const helper = require('./helper.js')
+
 var uniqid = require('uniqid');
 const { BrowserWindow } = require('electron').remote;
 const { remote } = require('electron');
@@ -35,7 +37,7 @@ let win = require('electron').remote.getCurrentWindow();
 const newMenu = new Menu();
 // New note
 newMenu.append(new MenuItem({ label: 'Note', click() {
-  notes = fetchNotes();
+  notes = helper.fetchNotes(workingDir);
 
   // Create note object with Uniqid and date as title
   var note = {
@@ -48,7 +50,7 @@ newMenu.append(new MenuItem({ label: 'Note', click() {
   // Create note file
   fs.writeFileSync(workingDir + '\\' + note.id + '.json', '');
   // Save updated notes array
-  saveNotes(notes);
+  helper.saveNotes(notes, workingDir);
   // Refresh notes to show new note in list
   refreshNotes();
 
@@ -255,7 +257,7 @@ function openNote(e) {
   // Parse int (index in notes.json) from string like "note0"
   var indexString = this.id.replace(/\D/g,'');
   var index = parseInt(indexString);
-  var notes = fetchNotes();
+  var notes = helper.fetchNotes(workingDir);
   let win = require('electron').remote.getCurrentWindow();
   // Send message to renderer.js containing note Uniqid
   win.webContents.send('note-opened', notes[index].id);
@@ -362,7 +364,7 @@ $(document).on('click', '.noteFolder, .note', function() {
 
 // Save name changes to notes and folders when window is clicked
 $(window).click(function() {
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
   for (i = 0; i < folders.length; i++) {
     if ($('#noteFolderText' + i).is("[contentEditable]")) {
       // Make folder name uneditable
@@ -372,7 +374,7 @@ $(window).click(function() {
     }
   }
 
-  var notes = fetchNotes();
+  var notes = helper.fetchNotes(workingDir);
   for (i = 0; i < notes.length; i++) {
     if ($('#noteText' + i).is("[contentEditable]")) {
       // Make note title uneditable
@@ -391,13 +393,13 @@ function renameFolder(id) {
   // Parse int (index in folders array) from elemtent ID
   var indexString = id.replace(/\D/g,'');
   var index = parseInt(indexString);
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
   // Rename directory
   fs.rename(workingDir + '\\' + folders[index].name, workingDir + '\\' + document.getElementById(id).innerHTML, function(error) {});
   // Update folder object
   folders[index].name = document.getElementById(id).innerHTML;
   // Save changes to array
-  saveFolders(folders);
+  helper.saveFolders(folders, workingDir);
   // Update sidebar to show changes
   refreshNotes();
 }
@@ -410,11 +412,11 @@ function renameNote(id) {
   // Parse int (index in notes array) from element ID
   var indexString = id.replace(/\D/g,'');
   var index = parseInt(indexString);
-  var notes = fetchNotes();
+  var notes = helper.fetchNotes(workingDir);
   // Update note object
   notes[index].title = document.getElementById(id).innerHTML;
   // Save changes to array
-  saveNotes(notes);
+  helper.saveNotes(notes, workingDir);
   // Refresh sidebar to show changes
   refreshNotes();
 }
@@ -445,7 +447,7 @@ function selectText(element) {
  * Create new folder.
  */
 function addFolder() {
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
 
   var folderName = 'New Folder';
   // Name new folder such that its name does not conflict with any existing folders
@@ -462,7 +464,7 @@ function addFolder() {
   // Add folder to array
   folders.unshift({name: folderName});
   // Save changes to array
-  saveFolders(folders);
+  helper.saveFolders(folders, workingDir);
   // Refresh sidebar to show changes
   refreshNotes();
 }
@@ -500,13 +502,6 @@ function folderContextMenu(e) {
   }
 }
 
-/**
- * Save array of folder objects to folders.json
- * @param {Object[]} folders - Array of folder objects to be saved
- */
-var saveFolders = (folders) => {
-  fs.writeFileSync(workingDir + '\\folders.json', JSON.stringify(folders));
-};
 
 /**
  * Enter folder when clicked
@@ -517,7 +512,7 @@ function openFolder(e) {
   var id = this.id;
   var indexString = id.replace(/\D/g,'');
   var index = parseInt(indexString);
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
   // Change working directory to that of folder
   workingDir = workingDir + '\\' + folders[index].name;
   // Write working directory to file
@@ -525,34 +520,6 @@ function openFolder(e) {
   // Refresh sidebar to show contents of entered folder
   refreshNotes();
 }
-
-/**
- * Parse notes.json and return array of note objects or empty array
- * if notes.json does not exist
- * @returns {Object[]} Array of note objects
- */
-var fetchNotes = () => {
-  try {
-    var notesString = fs.readFileSync(workingDir + '\\notes.json');
-    return JSON.parse(notesString);
-  } catch(e) {
-    return [];
-  }
-};
-
-/**
- * Parse folders.json and return array of folder objects or empty array
- * if folders.json does not exist
- * @returns {Object[]} Array of folder objects
- */
-var fetchFolders = () => {
-  try {
-    var foldersString = fs.readFileSync(workingDir + '\\folders.json');
-    return JSON.parse(foldersString);
-  } catch(e) {
-    return [];
-  }
-};
 
 /**
  * Refresh sidebar display to show changes
@@ -564,8 +531,8 @@ var refreshNotes = () => {
   }
 
   workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json', 'utf8');
-  var notes = fetchNotes();
-  var folders = fetchFolders();
+  var notes = helper.fetchNotes(workingDir);
+  var folders = helper.fetchFolders(workingDir);
 
   for (i = 0; i < folders.length; i++) {
     // Create div to hold folder listing
@@ -626,14 +593,6 @@ var refreshNotes = () => {
   div.className = "filler";
   notesDiv.appendChild(div);
 }
-
-/**
- * Save array of note objects to notes.json
- * @param {Object[]} notes - Array of note objects
- */
-var saveNotes = (notes) => {
-  fs.writeFileSync(workingDir + '\\notes.json', JSON.stringify(notes));
-};
 
 /**
  * Search notes in current notebook for a string

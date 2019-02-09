@@ -3,6 +3,8 @@ var find = require('fs-find');
 const { remote } = require('electron');
 const { Menu, MenuItem } = remote;
 
+const helper = require('./helper.js')
+
 var editor = document.getElementById('editor');
 var welcomeDiv = document.getElementById('welcomeDiv');
 var tabBar = document.getElementById('tabs');
@@ -47,7 +49,7 @@ Quill.register(Size, true);
  */
 var createTab = function(dir, id) {
   workingDir = dir; // Set working directory to directory of note
-  var notes = fetchNotes(); // Fetch notes array in working directory
+  var notes = helper.fetchNotes(workingDir); // Fetch notes array in working directory
   var note = notes.find(x => x.id === id); // Find note with same ID in notes array
   if (tabs.find(s => s.id == id) == undefined) { // Check if tab is already open
     var span = document.createElement('span'); // Create span to contain tab
@@ -202,20 +204,6 @@ function showNote(id) {
     }
   });
 }
-
-/**
- * Parse notes.json and return array of note objects or empty array
- * if notes.json does not exist
- * @returns {Object[]} Array of note objects
- */
-var fetchNotes = () => {
-  try {
-    var notesString = fs.readFileSync(workingDir + '\\notes.json');
-    return JSON.parse(notesString);
-  } catch(e) {
-    return [];
-  }
-};
 
 /**
  * Update tab elements to highlight selected tab

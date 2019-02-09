@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const helper = require('./helper.js')
 
 var nameInput = document.getElementById('name');
 var colorInput = document.getElementById('color');
@@ -8,39 +9,17 @@ var cancelBtn = document.getElementById('cancelBtn');
 // Read working directory from file
 var workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json');
 
-/**
- * Parse notebooks.json and return array of notebook objects or empty array
- * if notebooks.json does not exist
- * @returns {Object[]} Array of notebook objects
- */
-var fetchNotebooks = () => {
-  try {
-    var notebooksString = fs.readFileSync(workingDir + '\\notebooks.json');
-    return JSON.parse(notebooksString);
-  } catch(e) {
-    return [];
-  }
-};
-
 // Get element ID from file, then use to find notebook object in array parsed from notebooks.json
 var notebookString = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\notebookContextId.json');
 var notebook = JSON.parse(notebookString);
 notebook = notebook.replace(/\D/g,'');
 var index = parseInt(notebook);
-var notebooks = fetchNotebooks();
+var notebooks = helper.fetchNotebooks(workingDir);
 
 nameInput.value = notebooks[index].name; // Set default name to existing name
 // Init jscolor input with existing notebook color
 colorInput.className = "jscolor {valueElement:null,value:'" + notebooks[index].color.substr(1) + "',onFineChange:'update(this)'}";
 var colorValue = notebooks[index].color; // Initialize variable to store color value
-
-/**
- * Save notebook array to notebooks.json
- * @param {Object[]} notebooks - Array of notebook objects to be saved
- */
-var saveNotebooks = function(notebooks) {
-  fs.writeFileSync(workingDir + '\\notebooks.json', JSON.stringify(notebooks));
-};
 
 /**
  * Save changes to notebook
@@ -62,7 +41,7 @@ var editNotebook = function(name, color) {
   if (duplicateNotebooks.length === 0) { // No duplicates found
     fs.rename(workingDir + '\\' + notebooks[index].name, workingDir + '\\' + name, function(error) {}); // Rename folder
     notebooks[index] = notebook; // Update notebook object in array
-    saveNotebooks(notebooks); // Save new notebook array to file
+    helper.saveNotebooks(notebooks, workingDir); // Save new notebook array to file
   }
 }
 

@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const helper = require('./helper.js')
 
 // Read working directory from file
 var workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json');
@@ -28,38 +29,8 @@ var dirTitle = document.getElementById("directory");
 // Set directory text to notebook title
 dirTitle.innerHTML = notebookTitle;
 
-/**
- * Parse folders.json and return array of folder objects or empty array
- * if folders.json does not exist
- * @param {string} dir - Directory to look for folders.json
- * @returns {Object[]} Array of folder objects
- */
-var fetchFolders = (dir) => {
-  try {
-    var foldersString = fs.readFileSync(dir + '\\folders.json');
-    return JSON.parse(foldersString);
-  } catch(e) {
-    return [];
-  }
-};
-
-/**
- * Parse notes.json and return array of note objects or empty array
- * if notess.json does not exist
- * @param {string} dir - Directory to look for notes.json
- * @returns {Object[]} Array of note objects
- */
-var fetchNotes = (dir) => {
-  try {
-    var notesString = fs.readFileSync(dir + '\\notes.json');
-    return JSON.parse(notesString);
-  } catch(e) {
-    return [];
-  }
-};
-
 // Fetch notes from working directory (where items being moved are)
-var notes = fetchNotes(workingDir);
+var notes = helper.fetchNotes(workingDir);
 
 /**
  * Update folder listing to show folders in current directory
@@ -71,7 +42,7 @@ function refreshFolders() {
   }
 
   // Fetch array of folders in current directory
-  var folders = fetchFolders(currentDir);
+  var folders = helper.fetchFolders(currentDir);
   // Create array to store indices of selected folders in folders.json
   var selectedFolderIndices = [];
 
@@ -124,24 +95,6 @@ function refreshFolders() {
 // Show folders in home directory of notebook
 refreshFolders();
 
-/**
- * Save array of note objects to file by updating notes.json
- * @param {Object[]} notes - Array of note objects
- * @param {dir} dir - Directory in which notes will be saved
- */
-var saveNotes = (notes, dir) => {
-  fs.writeFileSync(dir + '\\notes.json', JSON.stringify(notes));
-};
-
-/**
- * Save array of folder objects to file by updating folders.json
- * @param {Object[]} folders - Array of folder objects
- * @param {dir} dir - Directory in which folders will be saved
- */
-var saveFolders = (folders, dir) => {
-  fs.writeFileSync(dir + '\\folders.json', JSON.stringify(folders));
-};
-
 // Enter folder when clicked
 $(document).on('click', '.noteFolder', function() {
   currentDir = currentDir + '/' + this.id;
@@ -168,13 +121,13 @@ $("#okBtn").on('click', function() {
     // Create array to store indices of moved notes in notes.json
     var noteIndices = [];
     // Fetch notes in destination directory
-    var notesNewDir = fetchNotes(currentDir);
+    var notesNewDir = helper.fetchNotes(currentDir);
     // Create array to store indices of moved folders in folders.json
     var folderIndices = [];
     // Fetch folders in source directory
-    var folders = fetchFolders(workingDir);
+    var folders = helper.fetchFolders(workingDir);
     // Fetch folders in destination directory
-    var foldersNewDir = fetchFolders(currentDir);
+    var foldersNewDir = helper.fetchFolders(currentDir);
     for (i = 0; i < selected.length; i++) {
       // Detect selected item is a folder
       if (selected[i].includes('noteFolder')) {
@@ -210,7 +163,7 @@ $("#okBtn").on('click', function() {
     // Remove moved notes from array by excluding them from new array
     if (noteIndices.length > 0) {
       // Save notes in destination directory
-      saveNotes(notesNewDir, currentDir);
+      helper.saveNotes(notesNewDir, currentDir);
       // Create array to store updated notes array in source directory
       var newNotes = [];
       for (i = 0; i < notes.length; i++) {
@@ -220,13 +173,13 @@ $("#okBtn").on('click', function() {
         }
       }
       // Save notes in source directory
-      saveNotes(newNotes, workingDir);
+      helper.saveNotes(newNotes, workingDir);
     }
 
     // Remove moved folders from array by excluding them from new array
     if (folderIndices.length > 0) {
       // Save notes in destination directory
-      saveFolders(foldersNewDir, currentDir);
+      helper.saveFolders(foldersNewDir, currentDir);
       // Creat array to store updates folders array in source directory
       var newFolders = [];
       for (i = 0; i < folders.length; i++) {
@@ -236,7 +189,7 @@ $("#okBtn").on('click', function() {
         }
       }
       // Save folders in source directory
-      saveFolders(newFolders, workingDir);
+      helper.saveFolders(newFolders, workingDir);
     }
 
     // Close window

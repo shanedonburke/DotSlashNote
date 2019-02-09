@@ -2,6 +2,7 @@ const { BrowserWindow } = require('electron').remote;
 const dialog = require('electron').remote.dialog;
 
 const fs = require('fs');
+const helper = require('./helper.js')
 
 var find = require('fs-find');
 var QuillDeltaToHtmlConverter = require('quill-delta-to-html').QuillDeltaToHtmlConverter;
@@ -91,7 +92,7 @@ notebookMenu.append(new MenuItem({ label: 'Export', click() {
   // Parse int (index in notebooks.json) from element ID
   var indexString = notebookContextId.replace(/\D/g,'');
   var index = parseInt(indexString);
-  var notebooks = fetchNotebooks();
+  var notebooks = helper.fetchNotebooks(workingDir);
   var notebookTitle = notebooks[index].name;
 
   // Show dialog, wherein user chooses destination
@@ -112,7 +113,6 @@ notebookMenu.append(new MenuItem({ label: 'Export', click() {
         "left": "0.5in"
       }
     }
-
     // Find files in notebook folder
     find(workingDir + '\\' + notebooks[index].name, function(err, results) {
       if(err) {
@@ -135,7 +135,6 @@ notebookMenu.append(new MenuItem({ label: 'Export', click() {
           var index = notesParsed.findIndex(s => s.id === id);
           // Find name of note
           var name = notesParsed[index].title;
-
           // Add object containing note title and delta object to array
           notesDelta.push({
             name: name,
@@ -156,11 +155,9 @@ notebookMenu.append(new MenuItem({ label: 'Export', click() {
         // Break page before next note
         htmlDoc += "\n<p style='page-break-before: always'>\n";
       }
-
-      var filePath = filename;
-      
       // Create PDF out of HTML document
-      pdf.create(htmlDoc, config).toFile(filePath, function(err, res) {
+      pdf.create(htmlDoc, config).toFile(filename, function(err, res) {
+        alert("PDF creation complete.");
         if (err) {
           alert(err);
         }
@@ -351,7 +348,7 @@ $(document).on('keypress','.folderText', function(e) {
 
 // Make folder names uneditable and save changes when user clicks in window
 $(window).click(function() {
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
   for (i = 0; i < folders.length; i++) {
     if ($('#folderText' + i).is("[contentEditable]")) {
       $('#folderText' + i).attr('contentEditable', false);
@@ -452,12 +449,12 @@ function renameFolder(id) {
   // Parse int from string like "folder0"
   var indexString = id.replace(/\D/g,'');
   var index = parseInt(indexString);
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
   // Rename directory
   fs.rename(workingDir + '\\' + folders[index].name, workingDir + '\\' + document.getElementById(id).innerHTML, function(error) {});
   // Update folders array
   folders[index].name = document.getElementById(id).innerHTML;
-  saveFolders(folders);
+  helper.saveFolders(folders, workingDir);
   // Refresh sidebar to show changes
   refreshNotebooks();
 }
@@ -488,7 +485,7 @@ function selectText(element) {
  * Create new folder
  */
 function addFolder() {
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
 
   var folderName = 'New Folder';
   // Name new folder such that its name does not conflict with any existing folders
@@ -499,19 +496,10 @@ function addFolder() {
     folderCount++;
     folderName = 'New Folder ' + folderCount;
   }
-  alert(workingDir + '\\' + folderName)
   fs.mkdirSync(workingDir + '\\' + folderName);
   folders.unshift({name: folderName});
-  saveFolders(folders);
+  helper.saveFolders(folders, workingDir);
 }
-
-/**
- * Save array of folders to folders.json
- * @param {Object[]} folders - Array of folder objects
- */
-var saveFolders = (folders) => {
-  fs.writeFileSync(workingDir + '\\folders.json', JSON.stringify(folders));
-};
 
 /**
  * Update item selection and open appropriate menu when notebook is right-clicked
@@ -589,7 +577,7 @@ function openNotebook(e) {
   // Parse int (index in notebook array) from string like "notebook0"
   notebook = notebook.replace(/\D/g,'');
   var index = parseInt(notebook);
-  var notebooks = fetchNotebooks();
+  var notebooks = helper.fetchNotebooks(workingDir);
   // Update working directory to that of opened notebook
   workingDir = workingDir + '\\' + notebooks[index].name;
   fs.writeFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json', workingDir);
@@ -606,7 +594,7 @@ function openFolder(e) {
   var id = this.id;
   var indexString = id.replace(/\D/g,'');
   var index = parseInt(indexString);
-  var folders = fetchFolders();
+  var folders = helper.fetchFolders(workingDir);
   // Update working directory
   workingDir = workingDir + '\\' + folders[index].name;
   fs.writeFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json', workingDir);
@@ -616,33 +604,6 @@ function openFolder(e) {
   refreshNotebooks();
 }
 
-/**
- * Parse notebooks.json and return array of notebook objects or empty array
- * if notebooks.json does not exist
- * @returns {Object[]} Array of notebook objects
- */
-var fetchNotebooks = () => {
-  try {
-    var notebooksString = fs.readFileSync(workingDir + '\\notebooks.json');
-    return JSON.parse(notebooksString);
-  } catch(e) {
-    return [];
-  }
-};
-
-/**
- * Parse folders.json and return array of folder objects or empty array
- * if folders.json does not exist
- * @returns {Object[]} Array of folder objects
- */
-var fetchFolders = () => {
-  try {
-    var foldersString = fs.readFileSync(workingDir + '\\folders.json');
-    return JSON.parse(foldersString);
-  } catch(e) {
-    return [];
-  }
-};
 
 /**
  * Refresh folder and notebook listings in sidebar
@@ -654,8 +615,8 @@ var refreshNotebooks = () => {
   }
 
   workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json', 'utf8');
-  var folders = fetchFolders();
-  var notebooks = fetchNotebooks();
+  var folders = helper.fetchFolders(workingDir);
+  var notebooks = helper.fetchNotebooks(workingDir);
 
   // Create folder listings
   for (i = 0; i < folders.length; i++) {

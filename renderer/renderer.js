@@ -14,20 +14,6 @@ var searchSidebar = document.getElementById('searchSidebar')
 
 notebookSidebar.style.display = "inline";
 
-/**
- * Parse notebooks.json and return array of notebook objects or empty array
- * if notebooks.json does not exist
- * @returns {Object[]} Array of notebook objects
- */
-var fetchNotebooks = () => {
-  try {
-    var notebooksString = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\notebooks.json');
-    return JSON.parse(notebooksString);
-  } catch(e) {
-    return [];
-  }
-};
-
 // Sent by notebookSidebar.js when user opens notebook
 ipcRenderer.on('notebook-opened', function(event, arg) {
   // Initialize note sidebar

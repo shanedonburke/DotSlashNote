@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const helper = require('./helper.js')
 
 var text = document.getElementById('text');
 var deleteBtn = document.getElementById('deleteBtn');
@@ -7,80 +8,14 @@ var cancelBtn = document.getElementById('cancelBtn');
 // Read working directory from file
 var workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json');
 
-/**
- * Parse notes.json and return array of note objects or empty array
- * if notes.json does not exist
- * @returns {Object[]} Array of note objects
- */
-var fetchNotes = () => {
-  try {
-    var notesString = fs.readFileSync(workingDir + '\\notes.json');
-    return JSON.parse(notesString);
-  } catch(e) {
-    return [];
-  }
-};
-
-/**
- * Parse notebooks.json and return array of notebook objects or empty array
- * if notebooks.json does not exist
- * @returns {Object[]} Array of notebook objects
- */
-var fetchNotebooks = () => {
-  try {
-    var notebooksString = fs.readFileSync(workingDir + '\\notebooks.json');
-    return JSON.parse(notebooksString);
-  } catch(e) {
-    return [];
-  }
-};
-
-/**
- * Parse folders.json and return array of folder objects or empty array
- * if folders.json does not exist
- * @returns {Object[]} Array of folder objects
- */
-var fetchFolders = () => {
-  try {
-    var foldersString = fs.readFileSync(workingDir + '\\folders.json');
-    return JSON.parse(foldersString);
-  } catch(e) {
-    return [];
-  }
-};
-
 // Read selected.json to get element IDs of selected items
 var selected = JSON.parse(fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\selected.json'));
-var folders = fetchFolders();
-var notebooks = fetchNotebooks();
-var notes = fetchNotes();
+var folders = helper.fetchFolders(workingDir);
+var notebooks = helper.fetchNotebooks(workingDir);
+var notes = helper.fetchNotes(workingDir);
 
 // Change text to reflect number of items being deleted
 text.innerHTML = "Delete " + selected.length + " items?";
-
-/**
- * Save array of note objects to notes.json
- * @param {Object[]} notes - Array of note objects to be saved
- */
-var saveNotes = (notes) => {
-  fs.writeFileSync(workingDir + '\\notes.json', JSON.stringify(notes));
-};
-
-/**
- * Save array of folder objects to folders.json
- * @param {Object[]} folders - Array of folder objects to be saved
- */
-var saveFolders = (folders) => {
-  fs.writeFileSync(workingDir + '\\folders.json', JSON.stringify(folders));
-};
-
-/**
- * Save array of notebook objects to notebooks.json
- * @param {Object[]} notebooks - Array of notebook objects to be saved
- */
-var saveNotebooks = (notes) => {
-  fs.writeFileSync(workingDir + '\\notebooks.json', JSON.stringify(notes));
-};
 
 
 // Close window if cancel button pressed
@@ -127,7 +62,7 @@ deleteBtn.addEventListener('click', function() {
         newNotebooks.push(notebooks[i]);
       }
     }
-    saveNotebooks(newNotebooks); // Save new notebook array to file
+    helper.saveNotebooks(newNotebooks, workingDir); // Save new notebook array to file
   }
 
   // If folderss were deleted, add elements from folder array to new array, excluding deleted folders
@@ -138,7 +73,7 @@ deleteBtn.addEventListener('click', function() {
         newFolders.push(folders[i]);
       }
     }
-    saveFolders(newFolders); // Save new folder array to file
+    helper.saveFolders(newFolders, workingDir); // Save new folder array to file
   }
 
   // If notes were deleted, add elements from note array to new array, excluding deleted notes
@@ -149,7 +84,7 @@ deleteBtn.addEventListener('click', function() {
         newNotes.push(notes[i]);
       }
     }
-    saveNotes(newNotes); // Save new note array to file
+    helper.saveNotes(newNotes, workingDir); // Save new note array to file
   }
 
   // Close window

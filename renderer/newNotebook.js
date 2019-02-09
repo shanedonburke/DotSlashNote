@@ -1,4 +1,5 @@
 const fs = require('fs');
+const helper = require('./helper.js')
 
 var okBtn = document.getElementById('okBtn');
 var cancelBtn = document.getElementById('cancelBtn');
@@ -28,28 +29,6 @@ document.querySelector("input").addEventListener('input', function(e) {
 });
 
 /**
- * Parse notebooks.json and return array of notebook objects or empty array
- * if notebooks.json does not exist
- * @returns {Object[]} Array of notebook objects
- */
-var fetchNotebooks = () => {
-  try {
-    var notebooksString = fs.readFileSync(workingDir + '\\notebooks.json');
-    return JSON.parse(notebooksString);
-  } catch(e) {
-    return [];
-  }
-};
-
-/**
- * Save notebook array to notebooks.json
- * @param {Object[]} notebooks - Array of notebook objects to be saved
- */
- var saveNotebooks = (notebooks) => {
-  fs.writeFileSync(workingDir + '\\notebooks.json', JSON.stringify(notebooks));
-};
-
-/**
  * Add notebook to array if not a duplicate
  * @param {string} name - Name of new notebook
  * @param {string} color - Hex color strin
@@ -73,7 +52,7 @@ var addNotebook = (name, color) => {
     // Create notebook folder
     fs.mkdirSync(workingDir + '\\' + notebook.name);
     // Save updated array
-    saveNotebooks(notebooks);
+    helper.saveNotebooks(notebooks, workingDir);
   }
 }
 
