@@ -34,7 +34,7 @@ document.querySelector("input").addEventListener('input', function(e) {
  * @param {string} color - Hex color strin
  */
 var addNotebook = (name, color) => {
-  var notebooks = fetchNotebooks();
+  var notebooks = helper.fetchNotebooks();
 
   // Create notebook object
   var notebook = {

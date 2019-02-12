@@ -133,13 +133,15 @@ notebookMenu.append(new MenuItem({ label: 'Export', click() {
           var notesParsed = JSON.parse(fs.readFileSync(notesJSON));
           // Find index of note in notes.json
           var index = notesParsed.findIndex(s => s.id === id);
-          // Find name of note
-          var name = notesParsed[index].title;
-          // Add object containing note title and delta object to array
-          notesDelta.push({
-            name: name,
-            data: JSON.parse(file)
-          });
+          if (index != -1) {
+            // Find name of note
+            var name = notesParsed[index].title;
+            // Add object containing note title and delta object to array
+            notesDelta.push({
+              name: name,
+              data: JSON.parse(file)
+            });
+          }
         }
       }
 

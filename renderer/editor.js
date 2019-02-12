@@ -121,11 +121,21 @@ $(document).keyup(function(event) {
 /**
  * Save selected note to file by getting contents of editor
  */
-var saveNote = function() {
-  if (tabs.length > 0) {
-    fs.writeFileSync(workingDir + '\\' + selectedTab + '.json', JSON.stringify(quill.getContents()));
-  }
-}
+ var saveNote = function() {
+   if (tabs.length > 0) {
+     find(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data', function(err, results) {
+       if(err) {
+         alert(err);
+       }
+       for (i = 0; i < results.length; i++) {
+         // Check if file is the one we're looking for
+         if (results[i].name === selectedTab + '.json') {
+           fs.writeFileSync(results[i].file, JSON.stringify(quill.getContents()));
+         }
+       }
+     });
+   }
+ }
 
 /**
  * Close tab and remove from tab bar
