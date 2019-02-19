@@ -7,12 +7,12 @@ var workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")
 // Search for home directory of notebook by looking for notebooks.json in above directory
 var currentDir = workingDir + "";
 var aboveDir = currentDir.substr(0, currentDir.lastIndexOf("\\"));
-currentDir = aboveDir;
 
 while (!fs.existsSync(aboveDir + '\\notebooks.json')) {
   currentDir = aboveDir;
   aboveDir = aboveDir.substr(0, aboveDir.lastIndexOf("\\"));
 }
+
 // Create variable to store home directory of notebook
 var homeDir = currentDir;
 // Parse title of notebook from folder name

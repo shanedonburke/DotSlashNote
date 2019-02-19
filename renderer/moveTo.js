@@ -3,6 +3,7 @@ const helper = require('./helper.js')
 
 // Read working directory (where items being moved are) from file
 var workingDir = fs.readFileSync(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data\\workingDir.json');
+var homeDir = __dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data'
 // Set current directory (where items will be moved to) to data folder
 var currentDir = __dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data';
 
@@ -87,7 +88,7 @@ $(document).on('click', '.noteFolder', function() {
 
 // Move up one folder when back button is pressed
 backBtn.addEventListener('click', function() {
-  if (currentDir != 'data') { // Data is the highest level directory
+  if (currentDir != homeDir) { // Data is the highest level directory
     currentDir = currentDir.substr(0, currentDir.lastIndexOf("\\"));
     // Update directory listing text
     dirTitle.innerHTML = currentDir.replace(__dirname.substr(0, __dirname.lastIndexOf("\\")) + '\\data', "Home");
@@ -100,13 +101,13 @@ $("#okBtn").on('click', function() {
   // Create array to store indices of notebooks being moved in notebooks.json
   var notebookIndices = [];
   // Fetch array of notebooks in destination directory
-  var notebooksNewDir = fetchNotebooks(currentDir);
+  var notebooksNewDir = helper.fetchNotebooks(currentDir);
   // Create array to store indices of folders being moved in folders.json
   var folderIndices = [];
   // Fetch array of folders in working directory
-  var folders = fetchFolders(workingDir);
+  var folders = helper.fetchFolders(workingDir);
   // Fetch array of folders in destination directory
-  var foldersNewDir = fetchFolders(currentDir);
+  var foldersNewDir = helper.fetchFolders(currentDir);
   for (i = 0; i < selected.length; i++) {
     if (selected[i].includes('notebook')) {
       // Parse int (index in notebooks.json) from string like "notebook0"
