@@ -1,6 +1,6 @@
 # ./note
 
-**[Note: This was my first Node.js project. Because of this, I did not do a very good job of handling dependency version management. Unfortunately, this means that the application is no longer functional due to an elusive versioning error. If there is demand, I will spend more time tracking it down. Until then, feel free to use/repurpose the source code however you like.**
+**Note: This was my first Node.js project. Because of this, I did not do a very good job of handling dependency version management. Unfortunately, this means that the application is no longer functional due to an elusive versioning error. If there is demand, I will spend more time tracking it down. Until then, feel free to use/repurpose the source code however you like.**
 
 ./note is an intuitive notetaking app that makes taking and organizing notes simpler than ever. Create, view and edit your notes in ./note's easy-to-use, tab-based editor. With a built-in folder system and keyword searching, organizing your notes couldn't be easier. If you want to compile your notes into a single file, export them in .PDF format for easy sharing.
 
