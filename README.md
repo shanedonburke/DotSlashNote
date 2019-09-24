@@ -1,6 +1,6 @@
 # ./note
 
-**Note: Due to an elusive Node.js versioning issue, this application no longer functions as is. If there is demand, I will spend more time tracking the error down. Until then, feel free to copy, distribute, or modify the software according to the [license](https://github.com/shanedonburke/DotSlashNote/blob/master/LICENSE).
+**Note: Due to an elusive Node.js versioning issue, this application no longer functions as is. If there is demand, I will spend more time tracking the error down. Until then, feel free to copy, distribute, or modify the software according to the [license](https://github.com/shanedonburke/DotSlashNote/blob/master/LICENSE).**
 
 ./note is an intuitive notetaking app that makes taking and organizing notes simpler than ever. Create, view and edit your notes in ./note's easy-to-use, tab-based editor. With a built-in folder system and keyword searching, organizing your notes couldn't be easier. If you want to compile your notes into a single file, export them in .PDF format for easy sharing.
 
