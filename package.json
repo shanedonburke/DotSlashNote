@@ -15,7 +15,7 @@
     "find-in-files": "^0.5.0",
     "fs-extra": "^7.0.1",
     "fs-find": "^0.4.0",
-    "highlight.js": "^9.13.1",
+    "highlight.js": "^10.1.2",
     "html-pdf": "^2.2.0",
     "jquery": "^3.3.1",
     "moment": "^2.23.0",
